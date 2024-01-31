@@ -8,6 +8,7 @@ import HistoryPage from '../HistoryPage/HistoryPage';
 import NavBar from '../../components/NavBar/NavBar';
 import AboutPage from '../AboutPage/AboutPage';
 
+
 export default function App() {
   const [user, setUser] = useState(getUser());
 

@@ -1,3 +1,4 @@
+//server.js
 const express = require('express');
 const path = require('path');
 const favicon = require('serve-favicon');
@@ -6,6 +7,7 @@ const logger = require('morgan');
 require('dotenv').config();
 // Connect to the database
 require('./config/database');
+const apodDataRoute = require('./routes/api/apodData');
 
 const app = express();
 
@@ -23,6 +25,8 @@ const port = process.env.PORT || 3001;
 
 // Put API routes here, before the "catch all" route
 app.use('/api/users', require('./routes/api/users'));
+app.use('/api/apod', apodDataRoute);
+
 
 // The following "catch all" route (note the *) is necessary
 // to return the index.html on all non-AJAX/API requests
