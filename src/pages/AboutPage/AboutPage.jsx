@@ -30,6 +30,7 @@ const AboutPage = () => {
         angle: 0,
         speed: 0.008,
         color: 'brown',
+        rings: { innerRadius: 20, outerRadius: 25, color: 'rgba(150, 75, 0, 0.5)' }, // Adding rings to Jupiter
         moons: [
           { name: 'Io', radius: 2, distance: 30, angle: 0, speed: 0.08, color: 'lightyellow' },
           { name: 'Europa', radius: 2, distance: 40, angle: 0, speed: 0.06, color: 'lightblue' },
@@ -61,6 +62,20 @@ const AboutPage = () => {
           drawMoon(planet, moon);
         });
       }
+
+      // Draw rings if the planet has them
+      if (planet.rings) {
+        drawRings(x, y, planet.rings);
+      }
+    };
+
+    const drawRings = (x, y, rings) => {
+      ctx.beginPath();
+      ctx.arc(x, y, rings.outerRadius, 0, 2 * Math.PI, false);
+      ctx.arc(x, y, rings.innerRadius, 0, 2 * Math.PI, true);
+      ctx.fillStyle = rings.color;
+      ctx.fill();
+      ctx.closePath();
     };
 
     const drawMoon = (planet, moon) => {

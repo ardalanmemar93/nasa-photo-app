@@ -9,7 +9,7 @@ export default function ApodDataComponent() {
       // Fetch data from NASA API
       const nasaResponse = await axios.get('https://api.nasa.gov/planetary/apod', {
         params: {
-          api_key: '6UW6loMHB1O57I5LARj9u0j4x2YjU6WBPEOqNFiY', // Replace with your NASA API key
+          api_key: '6UW6loMHB1O57I5LARj9u0j4x2YjU6WBPEOqNFiY', 
         },
       });
 
@@ -22,10 +22,9 @@ export default function ApodDataComponent() {
       });
 
       // Fetch data from your database
-      const dbResponse = await axios.get('/api/apod'); // Assuming your API endpoint is /api/apod
-      console.log('DB Response:', dbResponse.data);
+      const dbResponse = await axios.get('/api/apod'); 
 
-      setApodData(dbResponse.data[0]); // Access the first object in the array
+      setApodData(dbResponse.data[0]); 
     } catch (error) {
       console.error('Error fetching APOD data:', error);
     }
