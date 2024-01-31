@@ -8,7 +8,7 @@ export default function NavBar({ user, setUser }) {
   }
 
   return (
-    <nav className="bg-teal-500 p-4 text-white neon top-0 left-0 right-0 z-10 flex items-center justify-between">
+    <nav className="bg-teal-500 p-4 text-white neon top-0 left-0 right-0 z-10 flex items-center justify-between rounded">
       <div className="flex items-center">
         <span className="ml-2">Welcome, {user.name}</span>
         <Link to="/content" className="ml-4 hover:text-gray-300">History</Link>
