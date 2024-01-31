@@ -1,13 +1,31 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-export default function AdopDataComponent() {
+export default function ApodDataComponent() {
   const [apodData, setApodData] = useState(null);
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('/api/apod');
-      setApodData(response.data);
+      // Fetch data from NASA API
+      const nasaResponse = await axios.get('https://api.nasa.gov/planetary/apod', {
+        params: {
+          api_key: '6UW6loMHB1O57I5LARj9u0j4x2YjU6WBPEOqNFiY', // Replace with your NASA API key
+        },
+      });
+
+      // Save the data to MongoDB
+      await axios.post('/api/apod', {
+        title: nasaResponse.data.title,
+        explanation: nasaResponse.data.explanation,
+        date: nasaResponse.data.date,
+        imageUrl: nasaResponse.data.hdurl || nasaResponse.data.url,
+      });
+
+      // Fetch data from your database
+      const dbResponse = await axios.get('/api/apod'); // Assuming your API endpoint is /api/apod
+      console.log('DB Response:', dbResponse.data);
+
+      setApodData(dbResponse.data[0]); // Access the first object in the array
     } catch (error) {
       console.error('Error fetching APOD data:', error);
     }
@@ -22,13 +40,13 @@ export default function AdopDataComponent() {
         Fetch Data
       </button>
       <div>
-        {Array.isArray(apodData) && apodData.length > 0 ? (
+        {apodData ? (
           <div>
-            <p className="text-base mb-2">Title: {apodData[0].title}</p>
-            <p className="text-base mb-2">Explanation: {apodData[0].explanation}</p>
-            <p className="text-base mb-2">Date: {apodData[0].date}</p>
+            <p className="text-base mb-2">Title: {apodData.title}</p>
+            <p className="text-base mb-2">Explanation: {apodData.explanation}</p>
+            <p className="text-base mb-2">Date: {apodData.date}</p>
             <img
-              src={apodData[0].imageUrl}
+              src={apodData.imageUrl}
               alt="APOD"
               className="mt-4 rounded-md shadow-md"
             />
