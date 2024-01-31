@@ -13,7 +13,19 @@ const AboutPage = () => {
       { name: 'Venus', radius: 8, distance: 90, angle: 0, speed: 0.03, color: 'orange' },
       { name: 'Earth', radius: 10, distance: 130, angle: 0, speed: 0.02, color: 'blue' },
       { name: 'Mars', radius: 9, distance: 170, angle: 0, speed: 0.015, color: 'red' },
-      { name: 'Jupiter', radius: 18, distance: 230, angle: 0, speed: 0.008, color: 'brown' },
+      {
+        name: 'Jupiter',
+        radius: 18,
+        distance: 230,
+        angle: 0,
+        speed: 0.008,
+        color: 'brown',
+        rings: [
+          { ringRadius: 24, ringColor: 'rgba(200, 200, 200, 0.5)' },
+          { ringRadius: 30, ringColor: 'rgba(150, 150, 150, 0.5)' },
+          { ringRadius: 36, ringColor: 'rgba(100, 100, 100, 0.5)' },
+        ],
+      },
       { name: 'Saturn', radius: 15, distance: 290, angle: 0, speed: 0.006, color: 'gold' },
       { name: 'Uranus', radius: 12, distance: 360, angle: 0, speed: 0.004, color: 'lightblue' },
       { name: 'Neptune', radius: 10, distance: 430, angle: 0, speed: 0.002, color: 'darkblue' },
@@ -33,6 +45,20 @@ const AboutPage = () => {
       ctx.fillStyle = planet.color;
       ctx.fill();
       ctx.closePath();
+    };
+
+    const drawRings = (planet) => {
+      const x = sun.x + planet.distance * Math.cos(planet.angle);
+      const y = sun.y + planet.distance * Math.sin(planet.angle);
+
+      planet.rings.forEach((ring) => {
+        ctx.beginPath();
+        ctx.arc(x, y, ring.ringRadius, 0, 2 * Math.PI);
+        ctx.strokeStyle = ring.ringColor;
+        ctx.lineWidth = 3;
+        ctx.stroke();
+        ctx.closePath();
+      });
     };
 
     const drawSolarSystem = () => {
@@ -62,6 +88,12 @@ const AboutPage = () => {
       // Draw planets
       planets.forEach((planet) => {
         drawPlanet(planet);
+
+        // Check if the planet has rings
+        if (planet.rings) {
+          drawRings(planet);
+        }
+
         planet.angle += planet.speed;
       });
 
