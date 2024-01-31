@@ -6,24 +6,27 @@ import AuthPage from '../AuthPage/AuthPage';
 import NewContentPage from '../NewContentPage/NewContentPage';
 import HistoryPage from '../HistoryPage/HistoryPage';
 import NavBar from '../../components/NavBar/NavBar';
+import AboutPage from '../AboutPage/AboutPage';
 
 export default function App() {
   const [user, setUser] = useState(getUser());
 
   return (
     <main className="App">
-      { user ?
-          <>
-            <NavBar user={user} setUser={setUser} />
+      {user ? (
+        <div>
+          <NavBar user={user} setUser={setUser} />
+          <div>
             <Routes>
-              {/* Route components in here */}
               <Route path="/content/new" element={<NewContentPage />} />
               <Route path="/content" element={<HistoryPage />} />
+              <Route path="/about" element={<AboutPage />} />
             </Routes>
-          </>
-          :
-          <AuthPage setUser={setUser} />
-      }
+          </div>
+        </div>
+      ) : (
+        <AuthPage setUser={setUser} />
+      )}
     </main>
   );
 }

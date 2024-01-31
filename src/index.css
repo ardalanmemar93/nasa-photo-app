@@ -3,7 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+/* :root {
   --white: #FFFFFF;
   --tan-1: #FBF9F6;
   --tan-2: #E7E2DD;
@@ -16,7 +16,7 @@
 
 *, *:before, *:after {
   box-sizing: border-box;
-}
+} */
 
 body {
   background-image: url('/public/images/dark-space.jpeg');
@@ -35,16 +35,17 @@ body {
   overflow: auto;
 }
 
-code {
+/* code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-}
+} */
 
 #root {
   height: 100%;
+  width: 100%;
 }
 
-.align-ctr {
+/* .align-ctr {
   text-align: center;
 }
 
@@ -54,9 +55,9 @@ code {
 
 .smaller {
   font-size: smaller;
-}
+} */
 
-.flex-ctr-ctr {
+/* .flex-ctr-ctr {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -64,17 +65,17 @@ code {
 
 .flex-col {
   flex-direction: column;
-}
+} */
 
-.flex-j-end {
+/* .flex-j-end {
   justify-content: flex-end;
 }
 
 .scroll-y {
   overflow-y: scroll;
-}
+} */
 
-.section-heading {
+/* .section-heading {
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -85,48 +86,48 @@ code {
   padding: .6vmin;
   text-align: center;
   font-size: 2vmin;
-}
+} */
 
-.form-container {
+/* .form-container {
   padding: 3vmin;
   background-color: var(--tan-1);
   border: .1vmin solid var(--tan-3);
   border-radius: 1vmin;
-}
+} */
 
-p.error-message {
+/* p.error-message {
   color: var(--orange);
   text-align: center;
-}
+} */
 
-form {
+/* form {
   display: grid;
   grid-template-columns: 1fr 3fr;
   gap: 1.25vmin;
   color: var(--text-light);
-}
+} */
 
-label {
+/* label {
   font-size: 2vmin;
   display: flex;
   align-items: center;
-}
+} */
 
-input {
+/* input {
   padding: 1vmin;
   font-size: 2vmin;
   border: .1vmin solid var(--tan-3);
   border-radius: .5vmin;
   color: var(--text-dark);
-  background-image: none !important; /* prevent lastpass */
+  background-image: none !important; 
   outline: none;
-}
+} */
 
-input:focus {
+/* input:focus {
   border-color: var(--orange);
-}
+} */
 
-button, a.button {
+/* button, a.button {
   margin: 1vmin;
   padding: 1vmin;
   color: var(--white);
@@ -139,24 +140,24 @@ button, a.button {
   border-radius: .5vmin;
   outline: none;
   cursor: pointer;
-}
+} */
 
-button.btn-sm {
+/* button.btn-sm {
   font-size: 1.5vmin;
   padding: .6vmin .8vmin;
-}
+} */
 
-button.btn-xs {
+/* button.btn-xs {
   font-size: 1vmin;
   padding: .4vmin .5vmin;
-}
+} */
 
-button:disabled, form:invalid button[type="submit"] {
+/* button:disabled, form:invalid button[type="submit"] {
   cursor: not-allowed;
   background-color: var(--tan-4);
-}
+} */
 
-button[type="submit"] {
+/* button[type="submit"] {
   grid-column: span 2;
   margin: 1vmin 0 0;
-}
+} */
