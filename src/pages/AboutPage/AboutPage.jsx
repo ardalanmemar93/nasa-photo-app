@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 
 const AboutPage = () => {
   const canvasRef = useRef(null);
+  let isResizing = false; // Flag to control animation during resizing
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -22,7 +23,11 @@ const AboutPage = () => {
           { name: 'Moon', radius: 2, distance: 20, angle: 0, speed: 0.1, color: 'lightgray' },
         ],
       },
-      { name: 'Mars', radius: 9, distance: 170, angle: 0, speed: 0.015, color: 'red' },
+      { name: 'Mars', radius: 9, distance: 170, angle: 0, speed: 0.015, color: 'red', moons: [
+          { name: 'Phobos', radius: 1, distance: 15, angle: 0, speed: 0.2, color: 'gray' },
+          { name: 'Deimos', radius: 1, distance: 25, angle: 0, speed: 0.15, color: 'lightgray' },
+        ],
+      },
       {
         name: 'Jupiter',
         radius: 18,
@@ -30,15 +35,24 @@ const AboutPage = () => {
         angle: 0,
         speed: 0.008,
         color: 'brown',
-        rings: { innerRadius: 20, outerRadius: 25, color: 'rgba(150, 75, 0, 0.5)' }, // Adding rings to Jupiter
+        rings: { innerRadius: 20, outerRadius: 25, color: 'rgba(150, 75, 0, 0.5)' },
         moons: [
           { name: 'Io', radius: 2, distance: 30, angle: 0, speed: 0.08, color: 'lightyellow' },
           { name: 'Europa', radius: 2, distance: 40, angle: 0, speed: 0.06, color: 'lightblue' },
         ],
       },
-      { name: 'Saturn', radius: 15, distance: 290, angle: 0, speed: 0.006, color: 'gold' },
-      { name: 'Uranus', radius: 12, distance: 360, angle: 0, speed: 0.004, color: 'lightblue' },
-      { name: 'Neptune', radius: 10, distance: 430, angle: 0, speed: 0.002, color: 'darkblue' },
+      { name: 'Saturn', radius: 15, distance: 290, angle: 0, speed: 0.006, color: 'gold', moons: [
+          { name: 'Titan', radius: 3, distance: 35, angle: 0, speed: 0.1, color: 'orange' },
+        ],
+      },
+      { name: 'Uranus', radius: 12, distance: 360, angle: 0, speed: 0.004, color: 'lightblue', moons: [
+          { name: 'Miranda', radius: 1, distance: 15, angle: 0, speed: 0.12, color: 'lightgray' },
+        ],
+      },
+      { name: 'Neptune', radius: 10, distance: 430, angle: 0, speed: 0.002, color: 'darkblue', moons: [
+          { name: 'Triton', radius: 2, distance: 25, angle: 0, speed: 0.09, color: 'lightblue' },
+        ],
+      },
     ];
 
     const drawGlow = () => {
@@ -95,41 +109,52 @@ const AboutPage = () => {
     };
 
     const drawSolarSystem = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      if (!isResizing) {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Draw sun glow
-      drawGlow();
-      ctx.beginPath();
-      ctx.arc(sun.x, sun.y, sun.radius + 5, 0, 2 * Math.PI);
-      ctx.fillStyle = sun.glow;
-      ctx.fill();
-      ctx.closePath();
+        // Draw sun glow
+        drawGlow();
+        ctx.beginPath();
+        ctx.arc(sun.x, sun.y, sun.radius + 5, 0, 2 * Math.PI);
+        ctx.fillStyle = sun.glow;
+        ctx.fill();
+        ctx.closePath();
 
-      // Reset shadow
-      ctx.shadowBlur = 0;
+        // Reset shadow
+        ctx.shadowBlur = 0;
 
-      // Draw sun
-      ctx.beginPath();
-      ctx.arc(sun.x, sun.y, sun.radius, 0, 2 * Math.PI);
-      ctx.fillStyle = sun.color;
-      ctx.fill();
-      ctx.closePath();
+        // Draw sun
+        ctx.beginPath();
+        ctx.arc(sun.x, sun.y, sun.radius, 0, 2 * Math.PI);
+        ctx.fillStyle = sun.color;
+        ctx.fill();
+        ctx.closePath();
 
-      // Draw planets and their moons
-      planets.forEach((planet) => {
-        drawPlanet(planet);
-        planet.angle += planet.speed;
-      });
+        // Draw planets and their moons
+        planets.forEach((planet) => {
+          drawPlanet(planet);
+          planet.angle += planet.speed;
+        });
 
-      requestAnimationFrame(drawSolarSystem);
+        requestAnimationFrame(drawSolarSystem);
+      }
     };
 
     drawSolarSystem();
 
-    window.addEventListener('resize', drawSolarSystem);
+    window.addEventListener('resize', () => {
+      isResizing = true;
+      // Reset rotation angles when resizing
+      planets.forEach((planet) => {
+        planet.angle = 0;
+      });
+      setTimeout(() => {
+        isResizing = false;
+      }, 500); // Delay the reset of the resizing flag to prevent rapid animation
+    });
 
     return () => {
       window.removeEventListener('resize', drawSolarSystem);
