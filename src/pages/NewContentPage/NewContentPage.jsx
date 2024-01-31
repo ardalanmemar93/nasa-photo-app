@@ -1,3 +1,4 @@
+//NewContentPage.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import AdopDataComponent from '../../components/AdopDataComponent/AdopDataComponent';
