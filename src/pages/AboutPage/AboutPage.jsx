@@ -11,7 +11,17 @@ const AboutPage = () => {
     const planets = [
       { name: 'Mercury', radius: 5, distance: 60, angle: 0, speed: 0.05, color: 'gray' },
       { name: 'Venus', radius: 8, distance: 90, angle: 0, speed: 0.03, color: 'orange' },
-      { name: 'Earth', radius: 10, distance: 130, angle: 0, speed: 0.02, color: 'blue' },
+      {
+        name: 'Earth',
+        radius: 10,
+        distance: 130,
+        angle: 0,
+        speed: 0.02,
+        color: 'blue',
+        moons: [
+          { name: 'Moon', radius: 2, distance: 20, angle: 0, speed: 0.1, color: 'lightgray' },
+        ],
+      },
       { name: 'Mars', radius: 9, distance: 170, angle: 0, speed: 0.015, color: 'red' },
       {
         name: 'Jupiter',
@@ -21,9 +31,13 @@ const AboutPage = () => {
         speed: 0.008,
         color: 'brown',
         rings: [
-          { ringRadius: 24, ringColor: 'rgba(200, 200, 200, 0.5)' },
-          { ringRadius: 30, ringColor: 'rgba(150, 150, 150, 0.5)' },
-          { ringRadius: 36, ringColor: 'rgba(100, 100, 100, 0.5)' },
+          { radius: 23, width: 3, color: 'rgba(200, 200, 200, 0.8)' },
+          { radius: 26, width: 3, color: 'rgba(150, 150, 150, 0.8)' },
+          { radius: 29, width: 3, color: 'rgba(100, 100, 100, 0.8)' },
+        ],
+        moons: [
+          { name: 'Io', radius: 2, distance: 30, angle: 0, speed: 0.08, color: 'lightyellow' },
+          { name: 'Europa', radius: 2, distance: 40, angle: 0, speed: 0.06, color: 'lightblue' },
         ],
       },
       { name: 'Saturn', radius: 15, distance: 290, angle: 0, speed: 0.006, color: 'gold' },
@@ -45,20 +59,48 @@ const AboutPage = () => {
       ctx.fillStyle = planet.color;
       ctx.fill();
       ctx.closePath();
+
+      // Draw moons if the planet has them
+      if (planet.moons) {
+        planet.moons.forEach((moon) => {
+          drawMoon(planet, moon);
+        });
+      }
+
+      // Draw rings if the planet has them
+      if (planet.rings) {
+        planet.rings.forEach((ring) => {
+          drawRing(planet, ring);
+        });
+      }
     };
 
-    const drawRings = (planet) => {
+    const drawMoon = (planet, moon) => {
+      const planetX = sun.x + planet.distance * Math.cos(planet.angle);
+      const planetY = sun.y + planet.distance * Math.sin(planet.angle);
+
+      const moonX = planetX + moon.distance * Math.cos(moon.angle);
+      const moonY = planetY + moon.distance * Math.sin(moon.angle);
+
+      ctx.beginPath();
+      ctx.arc(moonX, moonY, moon.radius, 0, 2 * Math.PI);
+      ctx.fillStyle = moon.color;
+      ctx.fill();
+      ctx.closePath();
+
+      moon.angle += moon.speed;
+    };
+
+    const drawRing = (planet, ring) => {
       const x = sun.x + planet.distance * Math.cos(planet.angle);
       const y = sun.y + planet.distance * Math.sin(planet.angle);
 
-      planet.rings.forEach((ring) => {
-        ctx.beginPath();
-        ctx.arc(x, y, ring.ringRadius, 0, 2 * Math.PI);
-        ctx.strokeStyle = ring.ringColor;
-        ctx.lineWidth = 3;
-        ctx.stroke();
-        ctx.closePath();
-      });
+      ctx.beginPath();
+      ctx.arc(x, y, ring.radius, 0, 2 * Math.PI);
+      ctx.strokeStyle = ring.color;
+      ctx.lineWidth = ring.width;
+      ctx.stroke();
+      ctx.closePath();
     };
 
     const drawSolarSystem = () => {
@@ -85,15 +127,9 @@ const AboutPage = () => {
       ctx.fill();
       ctx.closePath();
 
-      // Draw planets
+      // Draw planets and their moons/rings
       planets.forEach((planet) => {
         drawPlanet(planet);
-
-        // Check if the planet has rings
-        if (planet.rings) {
-          drawRings(planet);
-        }
-
         planet.angle += planet.speed;
       });
 
