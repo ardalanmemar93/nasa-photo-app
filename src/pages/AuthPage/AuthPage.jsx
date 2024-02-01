@@ -4,15 +4,32 @@ import LoginForm from '../../components/LoginForm/LoginForm';
 
 export default function AuthPage({ setUser }) {
   const [showSignUp, setShowSignUp] = useState(false);
+  
   return (
-    <main>
-      <h1>AuthPage</h1>
-      <button onClick={() => setShowSignUp(!showSignUp)}>{showSignUp ? 'Log In' : 'Sign Up'}</button>
-      { showSignUp ?
-          <SignUpForm setUser={setUser} />
-          :
-          <LoginForm setUser={setUser} />
-      }
+    <main className="flex items-center justify-center h-screen">
+      <div className="text-center">
+        {showSignUp ? (
+          <>
+            <SignUpForm setUser={setUser} />
+            <button
+              onClick={() => setShowSignUp(!showSignUp)}
+              className="bg-teal-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 ls-button mt-2"
+            >
+              Log In
+            </button>
+          </>
+        ) : (
+          <>
+            <LoginForm setUser={setUser} />
+            <button
+              onClick={() => setShowSignUp(!showSignUp)}
+              className="bg-teal-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 ls-button mt-2"
+            >
+              Sign Up
+            </button>
+          </>
+        )}
+      </div>
     </main>
-  );
+  );  
 }

@@ -36,8 +36,9 @@ export default class SignUpForm extends Component {
 
   render() {
     const disable = this.state.password !== this.state.confirm;
+
     return (
-      <div className="flex items-center justify-center h-screen">
+      <div className="flex items-center justify-center">
         <div className="form-container bg-gray-800 p-8 rounded-md shadow-md">
           <form autoComplete="off" onSubmit={this.handleSubmit} className="flex flex-col space-y-4">
             <label className="text-white">Name</label>
