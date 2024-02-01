@@ -109,36 +109,39 @@ const AboutPage = () => {
       if (!isResizing.current) {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-
+    
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+    
         // Draw sun glow
         drawGlow();
+        sun.x = canvas.width / 2;  // Center the sun horizontally
+        sun.y = canvas.height / 2; // Center the sun vertically
         ctx.beginPath();
         ctx.arc(sun.x, sun.y, sun.radius + 5, 0, 2 * Math.PI);
         ctx.fillStyle = sun.glow;
         ctx.fill();
         ctx.closePath();
-
+    
         // Reset shadow
         ctx.shadowBlur = 0;
-
+    
         // Draw sun
         ctx.beginPath();
         ctx.arc(sun.x, sun.y, sun.radius, 0, 2 * Math.PI);
         ctx.fillStyle = sun.color;
         ctx.fill();
         ctx.closePath();
-
+    
         // Draw planets and their moons
         planets.forEach((planet) => {
           drawPlanet(planet);
           planet.angle += planet.speed;
         });
-
+    
         requestAnimationFrame(drawSolarSystem);
       }
     };
+  
 
     drawSolarSystem();
 
