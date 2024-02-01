@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 
 const AboutPage = () => {
   const canvasRef = useRef(null);
-  let isResizing = false; // Flag to control animation during resizing
+  const isResizing = useRef(false); // Use useRef instead of a regular variable
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -109,7 +109,7 @@ const AboutPage = () => {
     };
 
     const drawSolarSystem = () => {
-      if (!isResizing) {
+      if (!isResizing.current) {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
@@ -146,13 +146,13 @@ const AboutPage = () => {
     drawSolarSystem();
 
     window.addEventListener('resize', () => {
-      isResizing = true;
+      isResizing.current = true;
       // Reset rotation angles when resizing
       planets.forEach((planet) => {
         planet.angle = 0;
       });
       setTimeout(() => {
-        isResizing = false;
+        isResizing.current = false;
       }, 500); // Delay the reset of the resizing flag to prevent rapid animation
     });
 
