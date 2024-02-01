@@ -4,13 +4,14 @@ import axios from 'axios';
 
 export default function ApodDataComponent() {
     const [apodData, setApodData] = useState(null);
+    const API_KEY = process.env.REACT_APP_API_KEY
   
     const fetchData = async () => {
       try {
         // Fetch data from NASA API
         const nasaResponse = await axios.get('https://api.nasa.gov/planetary/apod', {
           params: {
-            api_key: '6UW6loMHB1O57I5LARj9u0j4x2YjU6WBPEOqNFiY', 
+            api_key: API_KEY, 
           },
         });
   
@@ -45,7 +46,7 @@ export default function ApodDataComponent() {
         onClick={fetchData}
         className="bg-teal-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
       >
-        Fetch Data
+        Dsiley Content
       </button>
       <div>
         {apodData ? (
@@ -60,7 +61,7 @@ export default function ApodDataComponent() {
             />
           </div>
         ) : (
-          <p className="text-base">No data fetched yet.</p>
+          <p className="text-base mt-4">Nothing yet.</p>
         )}
       </div>
     </div>
