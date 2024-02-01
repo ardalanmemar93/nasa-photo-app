@@ -25,18 +25,25 @@ const HistoryPage = () => {
   };
 
   return (
-    <div>
+    <div className="container mx-auto p-4">
       {apodDataList.map((apodItem) => (
-        <div key={apodItem._id} className="apod-item text-white">
-          <button onClick={() => toggleDetails(apodItem._id)}>
-            {expandedItemId === apodItem._id ? 'Hide Details' : 'Show Details'}
-          </button>
-          <h2>{apodItem.title}</h2>
+        <div key={apodItem._id} className="apod-item mb-4 p-4 bg-gray-800 rounded-md">
+          <div className="flex justify-between items-center">
+            <h2 className="text-xl text-white cursor-pointer" onClick={() => toggleDetails(apodItem._id)}>
+              {apodItem.title}
+            </h2>
+            <button
+              onClick={() => toggleDetails(apodItem._id)}
+              className="bg-teal-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+            >
+              {expandedItemId === apodItem._id ? 'Hide Details' : 'Show Details'}
+            </button>
+          </div>
           {expandedItemId === apodItem._id && (
-            <div className="apod-details">
-              <p>Date: {apodItem.date}</p>
-              <p>Explanation: {apodItem.explanation}</p>
-              <img src={apodItem.imageUrl} alt="APOD" />
+            <div className="apod-details mt-2">
+              <p className="text-gray-300">Date: {apodItem.date}</p>
+              <p className="text-gray-300">Explanation: {apodItem.explanation}</p>
+              <img src={apodItem.imageUrl} alt="APOD" className="mt-2 rounded-md shadow-md" />
             </div>
           )}
         </div>
