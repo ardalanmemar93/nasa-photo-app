@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 
 const AboutPage = () => {
   const canvasRef = useRef(null);
-  const isResizing = useRef(false); // Use useRef instead of a regular variable
+  const isResizing = useRef(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -60,29 +60,6 @@ const AboutPage = () => {
       ctx.shadowColor = sun.glow;
     };
 
-    const drawPlanet = (planet) => {
-      const x = sun.x + planet.distance * Math.cos(planet.angle);
-      const y = sun.y + planet.distance * Math.sin(planet.angle);
-
-      ctx.beginPath();
-      ctx.arc(x, y, planet.radius, 0, 2 * Math.PI);
-      ctx.fillStyle = planet.color;
-      ctx.fill();
-      ctx.closePath();
-
-      // Draw moons if the planet has them
-      if (planet.moons) {
-        planet.moons.forEach((moon) => {
-          drawMoon(planet, moon);
-        });
-      }
-
-      // Draw rings if the planet has them
-      if (planet.rings) {
-        drawRings(x, y, planet.rings);
-      }
-    };
-
     const drawRings = (x, y, rings) => {
       ctx.beginPath();
       ctx.arc(x, y, rings.outerRadius, 0, 2 * Math.PI, false);
@@ -92,10 +69,7 @@ const AboutPage = () => {
       ctx.closePath();
     };
 
-    const drawMoon = (planet, moon) => {
-      const planetX = sun.x + planet.distance * Math.cos(planet.angle);
-      const planetY = sun.y + planet.distance * Math.sin(planet.angle);
-
+    const drawMoon = (planet, moon, planetX, planetY) => {
       const moonX = planetX + moon.distance * Math.cos(moon.angle);
       const moonY = planetY + moon.distance * Math.sin(moon.angle);
 
@@ -106,6 +80,29 @@ const AboutPage = () => {
       ctx.closePath();
 
       moon.angle += moon.speed;
+    };
+
+    const drawPlanet = (planet) => {
+      const x = canvas.width / 2 + planet.distance * Math.cos(planet.angle);
+      const y = canvas.height / 2 + planet.distance * Math.sin(planet.angle);
+
+      ctx.beginPath();
+      ctx.arc(x, y, planet.radius, 0, 2 * Math.PI);
+      ctx.fillStyle = planet.color;
+      ctx.fill();
+      ctx.closePath();
+
+      // Draw moons if the planet has them
+      if (planet.moons) {
+        planet.moons.forEach((moon) => {
+          drawMoon(planet, moon, x, y);
+        });
+      }
+
+      // Draw rings if the planet has them
+      if (planet.rings) {
+        drawRings(x, y, planet.rings);
+      }
     };
 
     const drawSolarSystem = () => {
