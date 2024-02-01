@@ -50,7 +50,7 @@ export default function ApodDataComponent() {
       <div>
         {apodData ? (
           <div>
-            <p className="text-base mb-2">Title: {apodData.title}</p>
+            <p className="text-base mb-2 mt-2">Title: {apodData.title}</p>
             <p className="text-base mb-2">Explanation: {apodData.explanation}</p>
             <p className="text-base mb-2">Date: {apodData.date}</p>
             <img
