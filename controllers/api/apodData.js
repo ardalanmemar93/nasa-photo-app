@@ -14,14 +14,14 @@ const getApodData = async (req, res) => {
 
 const fetchAndSaveApodData = async (req, res) => {
   try {
-    const API_KEY = process.env.API_KEY;
+    const API_KEY = process.env.REACT_APP_API_KEY;
 
     const config = {
       method: 'get',
       url: 'https://api.nasa.gov/planetary/apod',
       params: {
         api_key: API_KEY,
-        date: req.query.date || '', // You can customize the date parameter based on your requirements
+        date: req.query.date || '',
         concept_tags: req.query.concept_tags || false,
         hd: req.query.hd || false,
         count: req.query.count || '',
@@ -48,10 +48,6 @@ const fetchAndSaveApodData = async (req, res) => {
     console.error('Error fetching and saving APOD data:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
-};
-
-module.exports = {
-  fetchAndSaveApodData,
 };
 
 module.exports = {
