@@ -35,7 +35,7 @@ export default function ApodDataComponent() {
     <div className="bg-gray-800 bg-opacity-50 text-white p-8">
       <button
         onClick={fetchData}
-        className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+        className="bg-teal-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
       >
         Fetch Data
       </button>

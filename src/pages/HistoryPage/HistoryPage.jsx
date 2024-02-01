@@ -27,7 +27,8 @@ const HistoryPage = () => {
   return (
     <div className="container mx-auto p-4">
       {apodDataList.map((apodItem) => (
-        <div key={apodItem._id} className="apod-item mb-4 p-4 bg-gray-800 rounded-md">
+        <div key={apodItem._id}           className="apod-item mb-4 p-4 bg-gray-800 rounded-md hover:bg-gray-700 transition duration-300"
+        >
           <div className="flex justify-between items-center">
             <h2 className="text-xl text-white cursor-pointer" onClick={() => toggleDetails(apodItem._id)}>
               {apodItem.title}
