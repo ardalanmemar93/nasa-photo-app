@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 export default function ApodDataComponent() {
-  const [apodData, setApodData] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [apiData, setApiData] = useState(null);
   const API_KEY = process.env.REACT_APP_API_KEY;
 
   const fetchData = async () => {
@@ -22,34 +23,26 @@ export default function ApodDataComponent() {
         },
       });
 
-      // Check if the data already exists in the database
-      const existingData = await axios.get('/api/apod', {
-        params: {
-          date: nasaResponse.data.date,
-        },
+      // Save the data to MongoDB
+      await axios.post('/api/apod', {
+        title: nasaResponse.data.title,
+        explanation: nasaResponse.data.explanation,
+        date: nasaResponse.data.date,
+        imageUrl: nasaResponse.data.hdurl || nasaResponse.data.url,
       });
 
-      if (existingData.data.length === 0) {
-        // Save the data to MongoDB only if it doesn't exist
-        await axios.post('/api/apod', {
-          title: nasaResponse.data.title,
-          explanation: nasaResponse.data.explanation,
-          date: nasaResponse.data.date,
-          imageUrl: nasaResponse.data.hdurl || nasaResponse.data.url,
-        });
-      }
+      // Set the data from NASA API
+      setApiData(nasaResponse.data);
 
-      // Fetch data from your database
-      const dbResponse = await axios.get('/api/apod');
-
-      setApodData(dbResponse.data[0]);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         // Axios error (network error, timeout, etc.)
         console.error('Axios error:', error.message);
+        setError('Error fetching data from NASA API');
       } else {
         // Other types of errors
         console.error('Error fetching APOD data:', error);
+        setError('Unexpected error');
       }
     } finally {
       setLoading(false);
@@ -66,19 +59,19 @@ export default function ApodDataComponent() {
         {loading ? 'Fetching...' : 'Daily Content'}
       </button>
       <div>
-        {apodData ? (
+        {apiData ? (
           <div>
-            <p className="text-base mb-2 mt-2">Title: {apodData.title}</p>
-            <p className="text-base mb-2">Explanation: {apodData.explanation}</p>
-            <p className="text-base mb-2">Date: {apodData.date}</p>
+            <p className="text-base mb-2 mt-2">Title: {apiData.title}</p>
+            <p className="text-base mb-2">Explanation: {apiData.explanation}</p>
+            <p className="text-base mb-2">Date: {apiData.date}</p>
             <img
-              src={apodData.imageUrl}
+              src={apiData.hdurl || apiData.url}
               alt="APOD"
               className="mt-4 rounded-md shadow-md"
             />
           </div>
         ) : (
-          <p className="text-base mt-4">{loading ? 'Fetching data...' : 'Nothing yet.'}</p>
+          <p className="text-base mt-4">{loading ? 'Fetching data...' : error || 'Nothing yet.'}</p>
         )}
       </div>
     </div>
